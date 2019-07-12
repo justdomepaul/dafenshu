@@ -1,0 +1,11 @@
+::ng-deep .br-default {
+  margin: -10px 0 !important;
+}
+
+.reData {
+  margin-bottom: 30px;
+  > bar-rating {
+    display: block;
+    height: 30px;
+  }
+}

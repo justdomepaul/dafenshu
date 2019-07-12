@@ -1,0 +1,27 @@
+::ng-deep .rating {
+  .br-default .br-unit {
+    margin-right: 45px;
+    font-size: 60px;
+    display: flex;
+    width: auto;
+    height: auto;
+    margin: auto;
+    font-size: 4rem;
+  }
+}
+
+::ng-deep .br-text {
+  text-align: center;
+  margin: 10px 0px 10px 0;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.flex-div {
+  > .flex-item {
+    flex: 0 0 calc(50% - 10px);
+    display: flex;
+  }
+}

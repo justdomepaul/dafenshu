@@ -1,0 +1,61 @@
+<img src="assets/szmcmap.jpg" (load)="onResize()" usemap="#planetmap" (window:resize)="onResize(img)" width="100%" #img>
+<map name="planetmap">
+  <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i]" *ngFor="let Area of mapAreaUse;let i = index;">
+</map>
+
+<div class="container mtop" *ngIf="cleanService.cleanDatasREDB.length === 0">
+  <mat-accordion style="margin-top: 15px;display: block;">
+    <ng-container *ngFor="let cleanData of cleanService.cleanDatas;let i = index;">
+      <mat-expansion-panel *ngIf="cleanData !== null && cleanData !== undefined">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{cleanData.area}}
+          </mat-panel-title>
+          <mat-panel-description>
+            <bar-rating [(rate)]="cleanData.rate" [max]="5" readOnly="true"></bar-rating>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>{{cleanData.note}}</p>
+        <mat-action-row>
+          <button mat-button color="warn" (click)="CleanDataDelete(i)">刪除</button>
+          <button mat-raised-button color="primary" [routerLink]="['/', 'area', cleanData.area]">前往修改</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+  <button mat-raised-button class="btn-block mtop" color="primary" (click)="CleanDataUpload()">上傳資料</button>
+</div>
+
+<div class="container mtop" *ngIf="cleanService.cleanDatasREDB.length !== 0">
+  <h3>請保留線上版本 或是即時版本</h3>
+  <div class="flex-div">
+    <div class="flex-item">
+      <ng-container *ngFor="let cleanData of cleanService.cleanDatasREDB;let i = index;">
+        <mat-card class="reData">
+          <p>{{cleanData.area}}</p>
+          <p>{{cleanData.note}}</p>
+          <bar-rating [(rate)]="cleanData.rate" [max]="5" readOnly="true"></bar-rating>
+          <mat-card-actions>
+            <button mat-raised-button (click)="CleanDataKeep(cleanData)" color="primary" class="btn-block">保留</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </div>
+    <div class="flex-item">
+      <ng-container *ngFor="let cleanData of cleanService.cleanDatasRELocal;let i = index;">
+        <mat-card class="reData">
+          <p>{{cleanData.area}}</p>
+          <p>{{cleanData.note}}</p>
+          <bar-rating [(rate)]="cleanData.rate" [max]="5" readOnly="true"></bar-rating>
+          <mat-card-actions>
+            <button mat-raised-button (click)="CleanDataKeep(cleanData)" color="primary" class="btn-block">保留</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+<br>

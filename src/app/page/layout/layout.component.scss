@@ -1,0 +1,15 @@
+::ng-deep mat-sidenav {
+  min-width: 200px;
+}
+
+::ng-deep mat-toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+.sidenav-container {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+}

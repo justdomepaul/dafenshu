@@ -1,0 +1,43 @@
+<ng-container *ngIf="cleanData !== undefined">
+  <div class="container rating">
+    <bar-rating [(rate)]="cleanData.rate" [max]="5" [showText]="true" [titles]="['必須改勁', '不好' , '好', '很好','值得表揚']">
+    </bar-rating>
+    <mat-form-field appearance="outline">
+      <mat-label>評分備註</mat-label>
+      <input matInput placeholder="評分備註" [(ngModel)]="cleanData.note" name="note">
+    </mat-form-field>
+
+    <div class="flex-div">
+      <ng-container *ngFor="let image of cleanData.image;let i = index">
+        <div class="flex-item">
+          <img [src]="image" class="img-rwd" (click)="imgFileInput.click()">
+          <input hidden type="file" #imgFileInput (change)="previewImage($event, i)" />
+        </div>
+      </ng-container>
+      <div class="flex-item">
+        <input hidden type="file" #imgFileInput (change)="previewImage($event, cleanData.image.length)" />
+        <img src="https://image.flaticon.com/icons/svg/138/138570.svg" class="img-rwd" (click)="imgFileInput.click()">
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="container" *ngIf="true">
+  <ng-container *ngFor="let item of firebase ;let i = index;">
+    <mat-form-field appearance="outline">
+      <mat-label>name</mat-label>
+      <input matInput placeholder="name" [(ngModel)]="item.name" (blur)=update(item) name="'firebase'+i">
+    </mat-form-field>
+  </ng-container>
+</div>
+
+<div class="container">
+  <div class="flex-div">
+    <div class="flex-item">
+      <button mat-raised-button color="" class="btn-block" (click)="goBack()">取消</button>
+    </div>
+    <div class="flex-item">
+      <button mat-raised-button color="primary" class="btn-block" (click)="Save()">儲存</button>
+    </div>
+  </div>
+</div>

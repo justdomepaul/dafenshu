@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="flex-div">
+    <div class="flex-item">
+      <button mat-raised-button color="primary" class="btn-block" (click)="ClassUpdate()">
+        <mat-icon>save</mat-icon>&nbsp; 儲存
+      </button>
+    </div>
+    <div class="flex-item">
+      <button mat-raised-button color="accent" class="btn-block" (click)="ClassAdd()">
+        <mat-icon>add</mat-icon>&nbsp; 新增班級
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container mtop">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let class of classArr;let i = index;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{class.name}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <button mat-raised-button color="warn" style="float: right;" (click)="ClassDel(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <mat-form-field appearance="outline">
+        <mat-label>班級名稱</mat-label>
+        <input matInput [(ngModel)]="class.name" [name]="'class'+i">
+      </mat-form-field>
+      <mat-form-field class="example-chip-list">
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip *ngFor="let area of class.ownArea;let j = index;"
+            (removed)="class.ownArea.splice(i,1);ReflashArea();">
+            {{area+1}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>新增區域</mat-label>
+        <mat-select (selectionChange)="class.ownArea.push($event.value);ReflashArea();">
+          <mat-option *ngFor="let mapArea of cleanService.mapArea;let j = index;" [disabled]="mapArea.disabled"
+            [value]="j">第{{j+1}}區
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<br>
