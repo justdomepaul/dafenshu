@@ -1,7 +1,15 @@
-<img src="assets/szmcmap.jpg" (load)="onResize()" usemap="#planetmap" (window:resize)="onResize(img)" width="100%" #img>
-<map name="planetmap">
-  <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i]" *ngFor="let Area of mapAreaUse;let i = index;">
-</map>
+<mat-tab-group mat-stretch-tabs>
+  <mat-tab label="外掃區A">
+    <img src="assets/szmcmap.jpg" (load)="onResize()" class="map-img" usemap="#planetmap"
+      (window:resize)="onResize(img)" #img>
+    <map name="planetmap">
+      <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i]"
+        *ngFor="let Area of cleanService.mapAreaUse;let i = index;">
+    </map>
+  </mat-tab>
+  <mat-tab label="外掃區B"> Content 2 </mat-tab>
+  <mat-tab label="內掃區"> Content 3 </mat-tab>
+</mat-tab-group>
 
 <div class="container mtop" *ngIf="cleanService.cleanDatasREDB.length === 0">
   <mat-accordion style="margin-top: 15px;display: block;">

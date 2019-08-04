@@ -16,6 +16,7 @@ import {
   MatSnackBarModule,
   MatSelectModule,
   MatChipsModule,
+  MatTabsModule,
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -40,6 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatSnackBarModule,
     MatSelectModule,
     MatChipsModule,
+    MatTabsModule,
     HttpClientModule,
   ],
 })

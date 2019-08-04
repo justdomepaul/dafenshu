@@ -14,6 +14,8 @@ import { DialogComponent } from './common/dialog/dialog.component';
 import { environment } from 'src/environments/environment';
 import { ClassSetComponent } from './page/class-set/class-set.component';
 import { MainComponent } from './page/main/main.component';
+import { HistoryComponent } from './page/history/history.component';
+import { AreaSetComponent, AreaSetDialogComponent } from './page/area-set/area-set.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,9 @@ import { MainComponent } from './page/main/main.component';
     DialogComponent,
     ClassSetComponent,
     MainComponent,
+    HistoryComponent,
+    AreaSetComponent,
+    AreaSetDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +40,6 @@ import { MainComponent } from './page/main/main.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DialogComponent],
+  entryComponents: [DialogComponent, AreaSetDialogComponent],
 })
 export class AppModule { }

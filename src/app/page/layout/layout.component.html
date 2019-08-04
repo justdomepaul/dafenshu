@@ -16,14 +16,26 @@
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
-        <button mat-button class="btn-block" routerLink="classSet" (click)="sidenav.toggle()">
+        <button mat-button class="btn-block" routerLink="/areaSet" (click)="sidenav.toggle()">
+          <mat-icon>category</mat-icon>&nbsp; 區域管理
+        </button>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <button mat-button class="btn-block" routerLink="/classSet" (click)="sidenav.toggle()">
           <mat-icon>contact_mail</mat-icon>&nbsp; 班級管理
+        </button>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <button mat-button class="btn-block" routerLink="/history" (click)="sidenav.toggle()">
+          <mat-icon>find_in_page</mat-icon>&nbsp; 歷史紀錄
         </button>
       </mat-list-item>
       <mat-divider></mat-divider>
     </mat-list>
   </mat-sidenav>
-  <div>
+  <div class="router-outlet">
     <router-outlet></router-outlet>
   </div>
 </mat-sidenav-container>

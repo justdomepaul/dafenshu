@@ -30,6 +30,7 @@ export class ClassSetComponent implements OnInit {
 
   ngOnInit() {
     // this.db.collection('class').doc('樹人醫護管理專科學校').set({ pet: 'dog' });
+    this.cleanService.routerName = '班級管理';
     this.db.collection('class').doc('樹人醫護管理專科學校').valueChanges().subscribe(
       (v: any) => {
         console.log('v', v);

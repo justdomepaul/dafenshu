@@ -1,7 +1,22 @@
 <ng-container *ngIf="cleanData !== undefined">
   <div class="container rating">
-    <bar-rating [(rate)]="cleanData.rate" [max]="5" [showText]="true" [titles]="['必須改勁', '不好' , '好', '很好','值得表揚']">
-    </bar-rating>
+    <!-- <bar-rating [(rate)]="cleanData.rate" [max]="5" [showText]="true" [titles]="['必須改勁', '不好' , '好', '很好','值得表揚']">
+    </bar-rating> -->
+    <br>
+    <mat-form-field>
+      <mat-label>扣分</mat-label>
+      <mat-select [(value)]="cleanData.rate">
+        <mat-option value="0">0</mat-option>
+        <mat-option value="-1">-1</mat-option>
+        <mat-option value="-2">-2</mat-option>
+        <mat-option value="-3">-3</mat-option>
+        <mat-option value="-5">-5</mat-option>
+        <mat-option value="-10">-10</mat-option>
+        <mat-option value="-15">-15</mat-option>
+        <mat-option value="-20">-20</mat-option>
+        <mat-option value="-25">-25</mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>評分備註</mat-label>
       <input matInput placeholder="評分備註" [(ngModel)]="cleanData.note" name="note">
@@ -21,15 +36,6 @@
     </div>
   </div>
 </ng-container>
-
-<div class="container" *ngIf="true">
-  <ng-container *ngFor="let item of firebase ;let i = index;">
-    <mat-form-field appearance="outline">
-      <mat-label>name</mat-label>
-      <input matInput placeholder="name" [(ngModel)]="item.name" (blur)=update(item) name="'firebase'+i">
-    </mat-form-field>
-  </ng-container>
-</div>
 
 <div class="container">
   <div class="flex-div">

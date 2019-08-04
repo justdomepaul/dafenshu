@@ -1,0 +1,9 @@
+<img src="assets/szmcmap.jpg" (load)="onResize()" class="map-img" usemap="#planetmap" (window:resize)="onResize(img)"
+  #img>
+<map name="planetmap">
+  <area shape="circle" [coords]="Area.coords" (click)="openDialog(i)"
+    *ngFor="let Area of cleanService.mapAreaUse;let i = index;">
+</map>
+<div class="container mtop">
+  <button class="btn-block" mat-raised-button color="primary" (click)="canvasPrint()">標記未命名區域</button>
+</div>

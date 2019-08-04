@@ -13,7 +13,6 @@ declare let window: any;
 export class AreaComponent implements OnInit {
   area = '';
   cleanData: Clean;
-  firebase = [];
   itemDoc: AngularFirestoreDocument;
 
   constructor(
@@ -24,23 +23,6 @@ export class AreaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.db.collection('item', ref => {
-      return ref;
-      // return ref.where('name', '==', 'Mark');
-    }).snapshotChanges().subscribe(
-      (actionArray) => {
-        console.log('actionArray', actionArray);
-        this.firebase = actionArray.map(
-          (item) => {
-            return {
-              id: item.payload.doc.id,
-              ...item.payload.doc.data(),
-            };
-          }
-        );
-      },
-      (e) => { console.log('e', e); },
-    );
     this.route.params.subscribe(
       (v) => {
         this.cleanData = this.cleanService.CleanDataGet(Number(v.area));

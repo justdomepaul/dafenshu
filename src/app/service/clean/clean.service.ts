@@ -9,6 +9,8 @@ import * as moment from 'moment';
 })
 export class CleanService {
   routerName = '';
+  mapAreaName = [];
+  mapAreaUse = [];
   cleanDatasDB: DBClean;
   cleanDatas: Clean[] = [];
   cleanDatasRELocal: Clean[] = [];
@@ -68,9 +70,13 @@ export class CleanService {
     return this.db.collection('clean').doc(this.monday).get();
   }
 
+  CleanDataAddWeek() {
+    console.log('CleanDataAddWeek');
+    return this.db.collection('clean').doc(this.monday).set({ data: {} });
+  }
+
   CleanDataUploadDB() {
-    const index = moment().get('day');
-    console.log('CleanDataUploadDB', this.cleanDatasDB.data[index]);
+    const index = moment().isoWeekday();
     if (this.cleanDatasDB.data[index] === undefined) {
       this.cleanDatasDB.data[index] = this.cleanDatas;
     } else {
@@ -85,6 +91,7 @@ export class CleanService {
         }
       );
     }
+    console.log('CleanDataUploadDB', this.cleanDatasDB);
     return this.db.collection('clean').doc(this.monday).set(this.cleanDatasDB);
   }
 
@@ -112,14 +119,11 @@ export class CleanService {
   CleanDataCompare() {
     this.cleanDatasREDB = [];
     this.cleanDatasRELocal = [];
-    const index = moment().get('day');
+    const index = moment().isoWeekday();
     // tslint:disable-next-line: prefer-for-of
-    console.log('this.cleanDatas CleanDataCompare', this.cleanDatas);
-    console.log('this.cleanDatasDB CleanDataCompare', this.cleanDatasDB.data[index]);
     for (let i = 0; i < this.cleanDatas.length; i++) {
       const element = this.cleanDatas[i];
       const elementDB = this.cleanDatasDB.data[index][i];
-      console.log('elementDB', elementDB, element);
       if (element !== null && elementDB !== null) {
         if (elementDB !== undefined && element !== undefined) {
           this.cleanDatasREDB.push(elementDB);

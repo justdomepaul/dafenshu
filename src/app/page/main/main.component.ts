@@ -5,18 +5,14 @@ import { Clean, DBClean } from 'src/app/interface/clean';
 import { MatSnackBar } from '@angular/material';
 import * as moment from 'moment';
 
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, AfterContentChecked {
-
   @ViewChild('img') img: ElementRef;
-
   imgWidth = 947;
-  mapAreaUse = [];
   constructor(
     public cleanService: CleanService,
     private toolService: ToolService,
@@ -27,12 +23,18 @@ export class MainComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    console.log(moment().day('Monday').toJSON());
     this.cleanService.routerName = '樹人環境評分系統';
     this.cleanService.CleanDataGetDB().subscribe(
       (v) => {
-        this.cleanService.cleanDatasDB = v.data() as DBClean;
         console.log(v.data());
+        this.cleanService.cleanDatasDB = v.data() as DBClean;
+        if (v.data() === undefined) {
+          this.cleanService.CleanDataAddWeek().then((result) => {
+            this.ngOnInit();
+          }).catch((err) => {
+
+          });
+        }
       }
     );
   }
@@ -45,7 +47,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
     this.cleanService.mapArea.forEach(area => {
       newArea.push({ coords: [area.coords[0] * scale, area.coords[1] * scale, 20 * scale] });
     });
-    this.mapAreaUse = newArea;
+    this.cleanService.mapAreaUse = newArea;
   }
 
   CleanDataDelete(i: number) {
@@ -103,7 +105,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
         }
       );
     } else {
-      const index = moment().get('day');
+      const index = moment().isoWeekday();
       if (this.cleanService.cleanDatasDB.data[index] === undefined) {
         this.CleanDataUploadDB();
       } else {
@@ -126,9 +128,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
   }
 
   CleanDataKeep(cleanData: Clean) {
-    const index = moment().get('day');
-    console.log('cleanData', cleanData);
-    console.log('this.cleanService.cleanDatasDB', this.cleanService.cleanDatasDB);
+    const index = moment().isoWeekday();
     this.cleanService.cleanDatas[cleanData.area] = cleanData;
     this.cleanService.cleanDatasDB.data[index][cleanData.area] = null;
     this.cleanService.CleanDataCompare();
