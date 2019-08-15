@@ -17,10 +17,10 @@
       <mat-expansion-panel *ngIf="cleanData !== null && cleanData !== undefined">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{cleanData.area}}
+            {{ cleanService.mapAreaName[cleanData.area] }}
           </mat-panel-title>
           <mat-panel-description>
-            <bar-rating [(rate)]="cleanData.rate" [max]="5" readOnly="true"></bar-rating>
+            分數：{{cleanData.rate}}
           </mat-panel-description>
         </mat-expansion-panel-header>
         <p>{{cleanData.note}}</p>

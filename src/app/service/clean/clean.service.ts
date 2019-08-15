@@ -9,7 +9,7 @@ import * as moment from 'moment';
 })
 export class CleanService {
   routerName = '';
-  mapAreaName = [];
+  mapAreaName = {};
   mapAreaUse = [];
   cleanDatasDB: DBClean;
   cleanDatas: Clean[] = [];
@@ -106,8 +106,6 @@ export class CleanService {
   }
 
   CleanDataGet(i: number): Clean {
-    console.log('CleanDataGet', this.cleanDatas[i]);
-    this.routerName = '第 ' + i + ' 打掃區域';
     if (this.cleanDatas[i] === undefined || this.cleanDatas[i] === null) {
       const cleanDataDemo: Clean = JSON.parse(JSON.stringify(this.cleanDataDemo));
       cleanDataDemo.area = i;
@@ -162,5 +160,25 @@ export class CleanService {
       }
     }
     return Promise.all(promiseArr);
+  }
+
+  CleanMapGet(): Promise<any> {
+    console.log('this.mapAreaName', this.mapAreaName);
+    return new Promise((resolve, reject) => {
+      if (JSON.stringify(this.mapAreaName !== '{}')) {
+        resolve();
+      }
+      this.db.collection('cleanMap').doc('map01').get().subscribe(
+        (v) => {
+          const data: any = v.data();
+          this.mapAreaName = data.data;
+          resolve();
+        }
+      );
+    });
+  }
+
+  CleanMapSet() {
+    return this.db.collection('cleanMap').doc('map01').set({ data: this.mapAreaName });
   }
 }

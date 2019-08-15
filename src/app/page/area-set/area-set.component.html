@@ -5,5 +5,5 @@
     *ngFor="let Area of cleanService.mapAreaUse;let i = index;">
 </map>
 <div class="container mtop">
-  <button class="btn-block" mat-raised-button color="primary" (click)="canvasPrint()">標記未命名區域</button>
+  <button class="btn-block" mat-raised-button color="primary" (click)="cleanService.CleanMapSet()">存檔</button>
 </div>

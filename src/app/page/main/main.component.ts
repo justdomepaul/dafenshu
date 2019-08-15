@@ -23,6 +23,12 @@ export class MainComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
+
+    this.cleanService.CleanMapGet().then((result) => {
+      console.log(this.cleanService.mapAreaName);
+    }).catch((err) => {
+
+    });
     this.cleanService.routerName = '樹人環境評分系統';
     this.cleanService.CleanDataGetDB().subscribe(
       (v) => {

@@ -26,7 +26,13 @@ export class AreaComponent implements OnInit {
     this.route.params.subscribe(
       (v) => {
         this.cleanData = this.cleanService.CleanDataGet(Number(v.area));
-        console.log(this.cleanData);
+        let routerName = this.cleanService.mapAreaName[v.area];
+        if (routerName !== '' && routerName !== undefined) {
+
+        } else {
+          routerName = '尚未命名';
+        }
+        this.cleanService.routerName = routerName;
       },
       (e) => { console.log(e); },
     );

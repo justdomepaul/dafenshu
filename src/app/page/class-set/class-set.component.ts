@@ -60,7 +60,6 @@ export class ClassSetComponent implements OnInit {
 
   ClassUpdate() {
     this.db.doc('class/樹人醫護管理專科學校').update({ data: this.classArr }).then((result) => {
-      console.log('result', result);
       this.snackBar.open('更新成功', '', { duration: 2000 });
     }).catch((err) => {
 

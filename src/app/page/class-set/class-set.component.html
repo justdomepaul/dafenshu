@@ -32,7 +32,7 @@
         <mat-chip-list #chipList aria-label="Fruit selection">
           <mat-chip *ngFor="let area of class.ownArea;let j = index;"
             (removed)="class.ownArea.splice(j,1);ReflashArea();">
-            {{area+1}}
+            {{area+1}} {{cleanService.mapAreaName[area]}}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
         </mat-chip-list>
@@ -41,7 +41,7 @@
         <mat-label>新增區域</mat-label>
         <mat-select (selectionChange)="class.ownArea.push($event.value);ReflashArea();">
           <mat-option *ngFor="let mapArea of cleanService.mapArea;let j = index;" [disabled]="mapArea.disabled"
-            [value]="j">第{{j+1}}區
+            [value]="j">{{j+1}} {{cleanService.mapAreaName[j]}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -50,4 +50,3 @@
 </div>
 
 <br>
-{{classArr | json}}
