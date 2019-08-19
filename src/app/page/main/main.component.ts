@@ -24,15 +24,11 @@ export class MainComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
 
-    this.cleanService.CleanMapGet().then((result) => {
-      console.log(this.cleanService.mapAreaName);
-    }).catch((err) => {
-
-    });
+    this.cleanService.CleanMapGet();
     this.cleanService.routerName = '樹人環境評分系統';
     this.cleanService.CleanDataGetDB().subscribe(
       (v) => {
-        console.log(v.data());
+        console.log('CleanDataGetDB', v.data());
         this.cleanService.cleanDatasDB = v.data() as DBClean;
         if (v.data() === undefined) {
           this.cleanService.CleanDataAddWeek().then((result) => {
@@ -102,34 +98,25 @@ export class MainComponent implements OnInit, AfterContentChecked {
   }
 
   CleanDataCheck() {
-    if (this.cleanService.cleanDatasDB === undefined) {
-      this.cleanService.CleanDataGetDB().subscribe(
-        (v) => {
-          this.cleanService.cleanDatasDB = v.data() as DBClean;
-          console.log(this.cleanService.cleanDatasDB);
-          this.CleanDataCheck();
-        }
-      );
+    const index = moment().isoWeekday();
+    if (this.cleanService.cleanDatasDB.data === undefined || this.cleanService.cleanDatasDB.data[index] === undefined) {
+      this.CleanDataUploadDB();
     } else {
-      const index = moment().isoWeekday();
-      if (this.cleanService.cleanDatasDB.data[index] === undefined) {
+      this.cleanService.CleanDataCompare();
+      if (this.cleanService.cleanDatasREDB.length === 0) {
         this.CleanDataUploadDB();
-      } else {
-        this.cleanService.CleanDataCompare();
-        if (this.cleanService.cleanDatasREDB.length === 0) {
-          this.CleanDataUploadDB();
-        }
-        console.log('衝突資料', this.cleanService.cleanDatasREDB);
       }
+      console.log('衝突資料', this.cleanService.cleanDatasREDB);
     }
   }
 
   CleanDataUploadDB() {
     this.cleanService.CleanDataUploadDB().then((res) => {
+      console.log('CleanDataUploadDB then', res);
       this.snackBar.open('上傳成功', '', { duration: 2000 });
       this.cleanService.CleanDataReset();
     }).catch((err) => {
-
+      console.log('CleanDataUploadDB err', err);
     });
   }
 

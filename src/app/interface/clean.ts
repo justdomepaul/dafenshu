@@ -11,5 +11,9 @@ export interface MapArea {
 }
 
 export interface DBClean {
-  data: Clean[][];
+  data: KeyDBClean;
+}
+
+export interface KeyDBClean {
+  [key: string]: Clean[];
 }

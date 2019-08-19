@@ -76,8 +76,10 @@ export class CleanService {
   }
 
   CleanDataUploadDB() {
+    this.cleanDatas = JSON.parse(localStorage.getItem('mkdata'));
     const index = moment().isoWeekday();
-    if (this.cleanDatasDB.data[index] === undefined) {
+    if (this.cleanDatasDB.data === undefined || this.cleanDatasDB.data[index] === undefined) {
+      this.cleanDatasDB.data = {};
       this.cleanDatasDB.data[index] = this.cleanDatas;
     } else {
       this.cleanDatas.map(
@@ -91,7 +93,7 @@ export class CleanService {
         }
       );
     }
-    console.log('CleanDataUploadDB', this.cleanDatasDB);
+    console.log('CleanDataUploadDB2', this.cleanDatasDB);
     return this.db.collection('clean').doc(this.monday).set(this.cleanDatasDB);
   }
 
