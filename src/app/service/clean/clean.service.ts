@@ -17,7 +17,7 @@ export class CleanService {
   cleanDatasREDB: Clean[] = [];
   cleanDataDemo: Clean = {
     area: 0,
-    rate: 3,
+    rate: 0,
     note: '',
     image: [],
   };
@@ -78,8 +78,7 @@ export class CleanService {
   CleanDataUploadDB() {
     this.cleanDatas = JSON.parse(localStorage.getItem('mkdata'));
     const index = moment().isoWeekday();
-    if (this.cleanDatasDB.data === undefined || this.cleanDatasDB.data[index] === undefined) {
-      this.cleanDatasDB.data = {};
+    if (this.cleanDatasDB.data[index] === undefined) {
       this.cleanDatasDB.data[index] = this.cleanDatas;
     } else {
       this.cleanDatas.map(

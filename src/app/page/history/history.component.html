@@ -6,10 +6,13 @@
           {{history.id}}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      {{history.fireData | json}}
-
-
-
+      目前數據
+      <ng-container *ngFor="let clean of history.clean;let i = index">
+        <p *ngIf="clean !== undefined">{{weekZh[i]}}</p>
+      </ng-container>
+      <button mat-raised-button color="primary">結算本週</button>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
+<br>
+<br>

@@ -99,14 +99,25 @@ export class MainComponent implements OnInit, AfterContentChecked {
 
   CleanDataCheck() {
     const index = moment().isoWeekday();
-    if (this.cleanService.cleanDatasDB.data === undefined || this.cleanService.cleanDatasDB.data[index] === undefined) {
-      this.CleanDataUploadDB();
+    // 取得資料確保不會被強置蓋過去
+    if (this.cleanService.cleanDatasDB === undefined) {
+      this.cleanService.CleanDataGetDB().subscribe(
+        (v) => {
+          this.cleanService.cleanDatasDB = v.data() as DBClean;
+          console.log(this.cleanService.cleanDatasDB);
+          this.CleanDataCheck();
+        }
+      );
     } else {
-      this.cleanService.CleanDataCompare();
-      if (this.cleanService.cleanDatasREDB.length === 0) {
+      if (this.cleanService.cleanDatasDB.data === undefined || this.cleanService.cleanDatasDB.data[index] === undefined) {
         this.CleanDataUploadDB();
+      } else {
+        this.cleanService.CleanDataCompare();
+        if (this.cleanService.cleanDatasREDB.length === 0) {
+          this.CleanDataUploadDB();
+        }
+        console.log('衝突資料', this.cleanService.cleanDatasREDB);
       }
-      console.log('衝突資料', this.cleanService.cleanDatasREDB);
     }
   }
 
