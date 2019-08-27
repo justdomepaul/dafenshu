@@ -26,18 +26,8 @@ export class ClassSetComponent implements OnInit {
     ownArea: [],
   };
 
-  classArr: SchoolClass[] = [];
-
   ngOnInit() {
-    // this.db.collection('class').doc('樹人醫護管理專科學校').set({ pet: 'dog' });
-    this.cleanService.routerName = '班級管理';
-    this.db.collection('class').doc('樹人醫護管理專科學校').valueChanges().subscribe(
-      (v: any) => {
-        console.log('v', v);
-        this.classArr = v.data;
-      },
-      (e) => { console.log('e', e); },
-    );
+
   }
 
   ReflashArea() {
@@ -45,7 +35,7 @@ export class ClassSetComponent implements OnInit {
     this.cleanService.mapArea.map(
       (x) => { x.disabled = false; }
     );
-    this.classArr.map(
+    this.cleanService.classArr.map(
       (x) => {
         x.ownArea.forEach(area => {
           this.cleanService.mapArea[area].disabled = true;
@@ -55,11 +45,11 @@ export class ClassSetComponent implements OnInit {
   }
 
   ClassAdd() {
-    this.classArr.push(JSON.parse(JSON.stringify(this.emptyClass)));
+    this.cleanService.classArr.push(JSON.parse(JSON.stringify(this.emptyClass)));
   }
 
   ClassUpdate() {
-    this.db.doc('class/樹人醫護管理專科學校').update({ data: this.classArr }).then((result) => {
+    this.db.doc('class/樹人醫護管理專科學校').update({ data: this.cleanService.classArr }).then((result) => {
       this.snackBar.open('更新成功', '', { duration: 2000 });
     }).catch((err) => {
 
@@ -68,7 +58,7 @@ export class ClassSetComponent implements OnInit {
 
   ClassDel(i: number) {
     const dialogData: DialogData = {
-      title: this.classArr[i].name + '',
+      title: this.cleanService.classArr[i].name + '',
       content: '確定這筆資料刪除嗎？',
       yes: '是',
       no: '否',
@@ -76,7 +66,7 @@ export class ClassSetComponent implements OnInit {
     this.toolService.openDialog(dialogData).subscribe(
       (result: boolean) => {
         if (result === true) {
-          this.classArr.splice(i, 1);
+          this.cleanService.classArr.splice(i, 1);
         }
       },
     );

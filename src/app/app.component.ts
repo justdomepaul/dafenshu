@@ -15,5 +15,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.cleanService.CleanMapGet();
+    this.cleanService.CleanClassGet();
   }
 }

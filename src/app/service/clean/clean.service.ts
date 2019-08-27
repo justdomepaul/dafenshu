@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Clean, MapArea, DBClean } from 'src/app/interface/clean';
+import { Clean, MapArea, DBClean, ClassArea, MkQueryDocumentSnapshot } from 'src/app/interface/clean';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ToolService } from '../tool/tool.service';
 import * as moment from 'moment';
@@ -15,6 +15,9 @@ export class CleanService {
   cleanDatas: Clean[] = [];
   cleanDatasRELocal: Clean[] = [];
   cleanDatasREDB: Clean[] = [];
+  classArr: ClassArea[] = [];
+  historyWeek: MkQueryDocumentSnapshot[] = [];
+  historyTable;
   cleanDataDemo: Clean = {
     area: 0,
     rate: 0,
@@ -181,5 +184,34 @@ export class CleanService {
 
   CleanMapSet() {
     return this.db.collection('cleanMap').doc('map01').set({ data: this.mapAreaName });
+  }
+
+  CleanClassGet() {
+    this.db.collection('class').doc('樹人醫護管理專科學校').valueChanges().subscribe(
+      (v: any) => {
+        this.classArr = v.data;
+      },
+      (e) => { console.log('e', e); },
+    );
+  }
+
+  CleanHistoryWeekGet() {
+    this.db.collection('clean').get().subscribe(
+      (v) => {
+        this.historyWeek = v.docs;
+      },
+    );
+  }
+
+  CleanHistoryGet(i: number) {
+    const theWeek = this.historyWeek[i].id;
+    this.db.collection('history').doc(theWeek).valueChanges().subscribe(
+      (v: any) => {
+        if (v !== undefined) {
+          const data = v.data;
+          this.historyWeek[i].historyDatas = data;
+        }
+      },
+    );
   }
 }

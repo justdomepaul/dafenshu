@@ -15,7 +15,7 @@
 
 <div class="container mtop">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let class of classArr;let i = index;">
+    <mat-expansion-panel *ngFor="let class of cleanService.classArr;let i = index;">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{class.name}}

@@ -1,3 +1,5 @@
+import { QueryDocumentSnapshot } from '@angular/fire/firestore';
+
 export interface Clean {
   area: number;
   rate: number;
@@ -16,4 +18,20 @@ export interface DBClean {
 
 export interface KeyDBClean {
   [key: string]: Clean[];
+}
+
+export interface ClassArea {
+  ownArea: number[];
+  name: string;
+}
+
+export interface HistoryData {
+  name: string;
+  scores: number;
+}
+
+export interface MkQueryDocumentSnapshot extends QueryDocumentSnapshot<any> {
+  fireData?: any;
+  clean?: Clean[][];
+  historyDatas?: HistoryData[];
 }

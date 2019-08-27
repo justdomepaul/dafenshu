@@ -1,16 +1,22 @@
 <div class="container">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let history of historyWeek;let i = index;" (afterExpand)="showData(i)">
+    <mat-expansion-panel *ngFor="let history of cleanService.historyWeek;let i = index;" (afterExpand)="showData(i)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{history.id}}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      目前數據
-      <ng-container *ngFor="let clean of history.clean;let i = index">
-        <p *ngIf="clean !== undefined">{{weekZh[i]}}</p>
+      <button mat-raised-button color="primary" (click)="test(i)">結算本週</button>
+      <p>目前數據</p>
+      <ng-container *ngFor="let clean of history.clean;let j = index">
+        <p *ngIf="clean !== undefined">{{weekZh[j]}}</p>
       </ng-container>
-      <button mat-raised-button color="primary">結算本週</button>
+      分數：
+      <span *ngIf="history.historyDatas === undefined">未計算</span>
+      <mat-list-item *ngFor="let historyData of history.historyDatas;let j = index">
+        <p mat-line>{{historyData.name}}：{{historyData.scores}}</p>
+        <mat-divider></mat-divider>
+      </mat-list-item>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
