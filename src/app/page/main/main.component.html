@@ -1,7 +1,7 @@
 <mat-tab-group mat-stretch-tabs>
   <mat-tab label="外掃區A">
     <img src="assets/szmcmap.jpg" (load)="onResize()" class="map-img" usemap="#planetmap"
-      (window:resize)="onResize(img)" #img>
+      (window:resize)="onResize()" #img>
     <map name="planetmap">
       <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i]"
         *ngFor="let Area of cleanService.mapAreaUse;let i = index;">
