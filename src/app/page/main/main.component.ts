@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef, AfterContentChecked } from '@
 import { CleanService } from 'src/app/service/clean/clean.service';
 import { ToolService, DialogData } from 'src/app/service/tool/tool.service';
 import { Clean, DBClean } from 'src/app/interface/clean';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import * as moment from 'moment';
+import { AreaSetDialogComponent } from '../area-set/area-set.component';
 
 @Component({
   selector: 'app-main',
@@ -17,6 +18,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
     public cleanService: CleanService,
     private toolService: ToolService,
     private snackBar: MatSnackBar,
+    public dialog: MatDialog,
   ) { }
 
   ngAfterContentChecked() {
@@ -136,5 +138,15 @@ export class MainComponent implements OnInit, AfterContentChecked {
     this.cleanService.cleanDatas[cleanData.area] = cleanData;
     this.cleanService.cleanDatasDB.data[index][cleanData.area] = null;
     this.cleanService.CleanDataCompare();
+  }
+
+  openDialog(i: number): void {
+    this.dialog.open(AreaSetDialogComponent, {
+      width: '300px',
+      data: i,
+    }).afterClosed().subscribe(result => {
+      console.log(result);
+      this.cleanService.CleanMapSet();
+    });
   }
 }
