@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToolService } from 'src/app/service/tool/tool.service';
 import { Clean } from 'src/app/interface/clean';
 import { CleanService } from 'src/app/service/clean/clean.service';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { MatDialog } from '@angular/material';
+import { AreaSetDialogComponent } from '../area-set/area-set.component';
 declare let window: any;
 @Component({
   selector: 'app-area',
@@ -14,15 +16,18 @@ export class AreaComponent implements OnInit {
   area = '';
   cleanData: Clean;
   itemDoc: AngularFirestoreDocument;
-
+  tabIndex: number;
   constructor(
     private route: ActivatedRoute,
     private toolService: ToolService,
     private cleanService: CleanService,
     private db: AngularFirestore,
+    private router: Router,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
+    this.tabIndex = this.route.snapshot.queryParams.tabIndex;
     this.route.params.subscribe(
       (v) => {
         this.cleanData = this.cleanService.CleanDataGet(Number(v.area));
@@ -50,7 +55,8 @@ export class AreaComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/'], { queryParams: { tabIndex: this.tabIndex } });
+    // window.history.back();
   }
 
   previewImage(event: any, i: number = 0) {
@@ -62,5 +68,17 @@ export class AreaComponent implements OnInit {
 
       });
     }
+  }
+
+  openDialog(i: number): void {
+    this.dialog.open(AreaSetDialogComponent, {
+      width: '300px',
+      data: i,
+    }).afterClosed().subscribe(result => {
+      console.log(result);
+      this.cleanService.CleanMapSet();
+
+      this.cleanService.routerName = this.cleanService.mapAreaName[this.cleanData.area];
+    });
   }
 }

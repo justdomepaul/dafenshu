@@ -5,6 +5,7 @@ import { Clean, DBClean } from 'src/app/interface/clean';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import * as moment from 'moment';
 import { AreaSetDialogComponent } from '../area-set/area-set.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -12,20 +13,32 @@ import { AreaSetDialogComponent } from '../area-set/area-set.component';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, AfterContentChecked {
+  tabIndex = 0;
   @ViewChild('img') img: ElementRef;
-  imgWidth = 947;
+  @ViewChild('img2') img2: ElementRef;
+  imgWidth = 948;
+  imgWidth2 = 1500;
+
+  range = [
+    0,
+    this.cleanService.mapArea.length,
+    this.cleanService.mapArea2.length,
+  ];
   constructor(
     public cleanService: CleanService,
     private toolService: ToolService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    private route: ActivatedRoute,
   ) { }
 
   ngAfterContentChecked() {
+    // this.onResize();
   }
 
   ngOnInit() {
-
+    this.tabIndex = Number(this.route.snapshot.queryParams.tabIndex) || 0;
+    console.log('tabIndex', this.tabIndex);
     this.cleanService.CleanMapGet();
     this.cleanService.routerName = '樹人環境評分系統';
     this.cleanService.CleanDataGetDB().subscribe(
@@ -43,15 +56,31 @@ export class MainComponent implements OnInit, AfterContentChecked {
     );
   }
 
+  tabChang(index) {
+    this.tabIndex = index;
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        this.onResize();
+      }, i * 200);
+    }
+  }
+
   onResize() {
-    console.log('resize');
     const innerWidth = this.img.nativeElement.clientWidth;
+    const innerWidth2 = this.img2.nativeElement.clientWidth;
     const scale = Math.round(innerWidth / this.imgWidth * 100) / 100;
+    const scale2 = Math.round(innerWidth2 / this.imgWidth2 * 100) / 100;
     const newArea = [];
+    console.log(this.cleanService.mapArea);
     this.cleanService.mapArea.forEach(area => {
       newArea.push({ coords: [area.coords[0] * scale, area.coords[1] * scale, 20 * scale] });
     });
     this.cleanService.mapAreaUse = newArea;
+    const newArea2 = [];
+    this.cleanService.mapArea2.forEach(area => {
+      newArea2.push({ coords: [area.coords[0] * scale2, area.coords[1] * scale2, 30 * scale2] });
+    });
+    this.cleanService.mapAreaUse2 = newArea2;
   }
 
   CleanDataDelete(i: number) {

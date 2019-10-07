@@ -3,6 +3,7 @@
     <!-- <bar-rating [(rate)]="cleanData.rate" [max]="5" [showText]="true" [titles]="['必須改勁', '不好' , '好', '很好','值得表揚']">
     </bar-rating> -->
     <br>
+    <button mat-raised-button color="primary" class="right" (click)="openDialog(cleanData.area)">修改區域名稱</button>
     <mat-form-field>
       <mat-label>扣分</mat-label>
       <mat-select [(value)]="cleanData.rate">

@@ -11,6 +11,7 @@ export class CleanService {
   routerName = '';
   mapAreaName = {};
   mapAreaUse = [];
+  mapAreaUse2 = [];
   cleanDatasDB: DBClean;
   cleanDatas: Clean[] = [];
   cleanDatasRELocal: Clean[] = [];
@@ -58,6 +59,51 @@ export class CleanService {
     { coords: [103, 279, 20] },
     { coords: [102, 228, 20] },
     { coords: [169, 164, 20] },
+  ];
+
+  mapArea2: MapArea[] = [
+    { coords: [340, 133] },
+    { coords: [341, 201] },
+    { coords: [346, 262] },
+    { coords: [345, 318] },
+    { coords: [350, 391] },
+    { coords: [347, 457] },
+    { coords: [347, 523] },
+    { coords: [380, 667] },
+    { coords: [382, 739] },
+    { coords: [382, 810] },
+    { coords: [377, 953] },
+    { coords: [381, 1041] },
+    { coords: [606, 86] },
+    { coords: [611, 153] },
+    { coords: [615, 222] },
+    { coords: [618, 280] },
+    { coords: [616, 348] },
+    { coords: [619, 408] },
+    { coords: [838, 664] },
+    { coords: [834, 743] },
+    { coords: [844, 812] },
+    { coords: [838, 954] },
+    { coords: [842, 1024] },
+    { coords: [898, 130] },
+    { coords: [893, 199] },
+    { coords: [895, 264] },
+    { coords: [899, 327] },
+    { coords: [897, 399] },
+    { coords: [899, 461] },
+    { coords: [1205, 609] },
+    { coords: [1211, 677] },
+    { coords: [1212, 738] },
+    { coords: [1208, 805] },
+    { coords: [1209, 870] },
+    { coords: [1207, 932] },
+    { coords: [1201, 1056] },
+    { coords: [1431, 242] },
+    { coords: [1434, 301] },
+    { coords: [1433, 372] },
+    { coords: [1437, 436] },
+    { coords: [1440, 510] },
+    { coords: [1439, 567] },
   ];
   constructor(
     private db: AngularFirestore,
@@ -183,7 +229,7 @@ export class CleanService {
   }
 
   CleanMapSet() {
-    return this.db.collection('cleanMap').doc('map01').set({ data: this.mapAreaName });
+    this.db.collection('cleanMap').doc('map01').set({ data: this.mapAreaName });
   }
 
   CleanClassGet() {

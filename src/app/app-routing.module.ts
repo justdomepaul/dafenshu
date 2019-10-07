@@ -6,6 +6,7 @@ import { ClassSetComponent } from './page/class-set/class-set.component';
 import { MainComponent } from './page/main/main.component';
 import { HistoryComponent } from './page/history/history.component';
 import { AreaSetComponent } from './page/area-set/area-set.component';
+import { LoginPageComponent } from './page/login-page/login-page.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,9 @@ const routes: Routes = [
       { path: 'area/:area', component: AreaComponent },
     ],
   },
+  {
+    path: 'login', component: LoginPageComponent
+  }
 ];
 
 @NgModule({
