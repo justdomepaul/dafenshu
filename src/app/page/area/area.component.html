@@ -4,6 +4,7 @@
     </bar-rating> -->
     <br>
     <button mat-raised-button color="primary" class="right" (click)="openDialog(cleanData.area)">修改區域名稱</button>
+    <p>負責班級：{{cleanService.ClassNameGetById(cleanData.area)}}</p>
     <mat-form-field>
       <mat-label>扣分</mat-label>
       <mat-select [(value)]="cleanData.rate">

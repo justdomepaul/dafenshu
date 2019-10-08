@@ -382,6 +382,7 @@ export class CleanService {
   CleanClassGet() {
     this.db.collection('class').doc('樹人醫護管理專科學校').valueChanges().subscribe(
       (v: any) => {
+        console.log('CleanClassGet 班級');
         this.classArr = v.data;
       },
       (e) => { console.log('e', e); },
@@ -406,5 +407,16 @@ export class CleanService {
         }
       },
     );
+  }
+
+  ClassNameGetById(id: number): string {
+    let className = '';
+    this.classArr.forEach(item => {
+      if (item.ownArea.indexOf(id) !== -1) {
+        className = item.name;
+        return className;
+      }
+    });
+    return className;
   }
 }

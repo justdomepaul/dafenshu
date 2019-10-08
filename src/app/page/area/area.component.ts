@@ -20,7 +20,7 @@ export class AreaComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private toolService: ToolService,
-    private cleanService: CleanService,
+    public cleanService: CleanService,
     private db: AngularFirestore,
     private router: Router,
     public dialog: MatDialog,

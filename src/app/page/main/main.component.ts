@@ -24,7 +24,8 @@ export class MainComponent implements OnInit, AfterContentChecked {
   range = [
     0,
     this.cleanService.mapArea.length,
-    this.cleanService.mapArea2.length,
+    this.cleanService.mapArea.length + this.cleanService.mapArea2.length,
+    this.cleanService.mapArea.length + this.cleanService.mapArea2.length + this.cleanService.mapArea3.length,
   ];
   constructor(
     public cleanService: CleanService,
