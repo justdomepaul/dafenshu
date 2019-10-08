@@ -26,6 +26,7 @@ export class AreaSetDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('this.cleanService.mapAreaName',this.cleanService.mapAreaName);
     if (this.cleanService.mapAreaName[this.mapAreaI] !== undefined) {
       console.log(this.cleanService.mapAreaName);
       this.name = this.cleanService.mapAreaName[this.mapAreaI];

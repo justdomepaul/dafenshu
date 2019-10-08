@@ -7,7 +7,7 @@ import { CleanService } from './service/clean/clean.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'imagemap';
+  title = 'dafenshu';
 
   constructor(
     private cleanService: CleanService,

@@ -368,7 +368,9 @@ export class CleanService {
       this.db.collection('cleanMap').doc('map01').get().subscribe(
         (v) => {
           const data: any = v.data();
-          this.mapAreaName = data.data;
+          if (JSON.stringify(data) !== '{}') {
+            this.mapAreaName = data.data;
+          }
           resolve();
         }
       );
