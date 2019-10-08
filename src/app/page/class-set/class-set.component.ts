@@ -12,8 +12,6 @@ import { DialogData, ToolService } from 'src/app/service/tool/tool.service';
 })
 export class ClassSetComponent implements OnInit {
 
-
-
   constructor(
     public cleanService: CleanService,
     private db: AngularFirestore,
@@ -32,13 +30,13 @@ export class ClassSetComponent implements OnInit {
 
   ReflashArea() {
     this.mapAreaUse = [];
-    this.cleanService.mapArea.map(
+    this.cleanService.mapAreaAll.map(
       (x) => { x.disabled = false; }
     );
     this.cleanService.classArr.map(
       (x) => {
         x.ownArea.forEach(area => {
-          this.cleanService.mapArea[area].disabled = true;
+          this.cleanService.mapAreaAll[area].disabled = true;
         });
       }
     );

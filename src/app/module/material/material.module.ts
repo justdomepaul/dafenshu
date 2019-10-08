@@ -17,6 +17,7 @@ import {
   MatSelectModule,
   MatChipsModule,
   MatTabsModule,
+  MatSlideToggleModule,
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -42,6 +43,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatSelectModule,
     MatChipsModule,
     MatTabsModule,
+    MatSlideToggleModule,
     HttpClientModule,
   ],
 })

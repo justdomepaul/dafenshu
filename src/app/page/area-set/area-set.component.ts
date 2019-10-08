@@ -8,7 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   <div mat-dialog-content>
     <p>修改區域名稱</p>
     <mat-form-field style="width: 100%;">
-      <input matInput [(ngModel)]="name" cdkFocusInitial>
+      <input matInput [(ngModel)]="name" name="areaName" (keyup.enter)="changAreaName()" cdkFocusInitial>
     </mat-form-field>
   </div>
   <div mat-dialog-actions style="justify-content: space-between;">

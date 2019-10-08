@@ -1,24 +1,56 @@
+<button mat-icon-button class="right modeBtn" [matMenuTriggerFor]="menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    評分模式<mat-slide-toggle color="primary" (change)="modeChange($event)" #modeName>編輯模式</mat-slide-toggle>
+  </button>
+  <!-- <button mat-menu-item (click)="mktt()">
+    <mat-icon>notifications_off</mat-icon>
+    <span>測試</span>
+  </button> -->
+</mat-menu>
+<p align="center" *ngIf="modeName.checked === true">編輯模式</p>
 <mat-tab-group mat-stretch-tabs (selectedIndexChange)="tabChang($event)" [selectedIndex]="tabIndex">
-  <mat-tab label="外掃區A">
+  <mat-tab label="外掃區">
     <img src="assets/szmcmap.jpg" (load)="onResize()" class="map-img" usemap="#planetmap" (window:resize)="onResize()"
       #img>
-    <map name="planetmap">
+    <map name="planetmap" *ngIf="modeName.checked === false">
       <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i]" [queryParams]="{tabIndex : 0}"
         *ngFor="let Area of cleanService.mapAreaUse;let i = index;">
     </map>
-  </mat-tab>
-  <mat-tab label="外掃區B">
-    <img src="assets/szmcmap2.jpg" (load)="onResize()" class="map-img" usemap="#planetmap2" (window:resize)="onResize()"
-      #img2>
-    <map name="planetmap2">
-      <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i + cleanService.mapAreaUse.length]"
-        [queryParams]="{tabIndex : 1}" *ngFor="let Area of cleanService.mapAreaUse2;let i = index;">
+    <map name="planetmap" *ngIf="modeName.checked === true">
+      <area shape="circle" [coords]="Area.coords" (click)="openDialog(i)"
+        *ngFor="let Area of cleanService.mapAreaUse;let i = index;">
     </map>
   </mat-tab>
-  <mat-tab label="內掃區"> Content 3 </mat-tab>
+  <mat-tab label="廁所責任區">
+    <img src="assets/szmcmap2.jpg" (load)="onResize()" class="map-img" usemap="#planetmap2" (window:resize)="onResize()"
+      #img2>
+    <map name="planetmap2" *ngIf="modeName.checked === false">
+      <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i + range[tabIndex]]" [queryParams]="{tabIndex : 1}"
+        *ngFor="let Area of cleanService.mapAreaUse2;let i = index;">
+    </map>
+    <map name="planetmap2" *ngIf="modeName.checked === true">
+      <area shape="circle" [coords]="Area.coords" (click)="openDialog(i + range[tabIndex])"
+        *ngFor="let Area of cleanService.mapAreaUse2;let i = index;">
+    </map>
+  </mat-tab>
+  <mat-tab label="內掃區">
+    <img src="assets/szmcmap3.jpg" (load)="onResize()" class="map-img" usemap="#planetmap3" (window:resize)="onResize()"
+      #img3>
+    <map name="planetmap3" *ngIf="modeName.checked === false">
+      <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i +range[tabIndex]]" [queryParams]="{tabIndex : 2}"
+        *ngFor="let Area of cleanService.mapAreaUse3;let i = index;">
+    </map>
+    <map name="planetmap3" *ngIf="modeName.checked === true">
+      <area shape="circle" [coords]="Area.coords" (click)="openDialog(i +range[tabIndex])"
+        *ngFor="let Area of cleanService.mapAreaUse3;let i = index;">
+    </map>
+  </mat-tab>
 </mat-tab-group>
 
-<div class="container mtop" *ngIf="cleanService.cleanDatasREDB.length === 0">
+<div class="container mtop" *ngIf="cleanService.cleanDatasREDB.length === 0 && modeName.checked === false">
   <mat-accordion style="margin-top: 15px;display: block;">
     <ng-container *ngFor="let cleanData of cleanService.cleanDatas;let i = index;">
       <mat-expansion-panel

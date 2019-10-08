@@ -16,8 +16,10 @@ export class MainComponent implements OnInit, AfterContentChecked {
   tabIndex = 0;
   @ViewChild('img') img: ElementRef;
   @ViewChild('img2') img2: ElementRef;
+  @ViewChild('img3') img3: ElementRef;
   imgWidth = 948;
   imgWidth2 = 1500;
+  imgWidth3 = 873;
 
   range = [
     0,
@@ -68,8 +70,10 @@ export class MainComponent implements OnInit, AfterContentChecked {
   onResize() {
     const innerWidth = this.img.nativeElement.clientWidth;
     const innerWidth2 = this.img2.nativeElement.clientWidth;
+    const innerWidth3 = this.img3.nativeElement.clientWidth;
     const scale = Math.round(innerWidth / this.imgWidth * 100) / 100;
     const scale2 = Math.round(innerWidth2 / this.imgWidth2 * 100) / 100;
+    const scale3 = Math.round(innerWidth3 / this.imgWidth3 * 100) / 100;
     const newArea = [];
     console.log(this.cleanService.mapArea);
     this.cleanService.mapArea.forEach(area => {
@@ -81,6 +85,11 @@ export class MainComponent implements OnInit, AfterContentChecked {
       newArea2.push({ coords: [area.coords[0] * scale2, area.coords[1] * scale2, 30 * scale2] });
     });
     this.cleanService.mapAreaUse2 = newArea2;
+    const newArea3 = [];
+    this.cleanService.mapArea3.forEach(area => {
+      newArea3.push({ coords: [area.coords[0] * scale3, area.coords[1] * scale3, 15 * scale3] });
+    });
+    this.cleanService.mapAreaUse3 = newArea3;
   }
 
   CleanDataDelete(i: number) {
@@ -177,5 +186,13 @@ export class MainComponent implements OnInit, AfterContentChecked {
       console.log(result);
       this.cleanService.CleanMapSet();
     });
+  }
+
+  modeChange(event) {
+    console.log('modeChange', event);
+  }
+
+  mktt() {
+    console.log('mktt');
   }
 }
