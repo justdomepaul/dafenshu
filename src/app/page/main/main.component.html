@@ -5,10 +5,10 @@
   <button mat-menu-item>
     評分模式<mat-slide-toggle color="primary" (change)="modeChange($event)" #modeName>編輯模式</mat-slide-toggle>
   </button>
-  <button mat-menu-item (click)="mktt()">
+  <!-- <button mat-menu-item (click)="mktt()">
     <mat-icon>notifications_off</mat-icon>
     <span>測試</span>
-  </button>
+  </button> -->
 </mat-menu>
 <p align="center" *ngIf="modeName.checked === true">編輯模式</p>
 <mat-tab-group mat-stretch-tabs (selectedIndexChange)="tabChang($event)" [selectedIndex]="tabIndex">
