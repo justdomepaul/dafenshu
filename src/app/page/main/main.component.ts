@@ -17,6 +17,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
   @ViewChild('img') img: ElementRef;
   @ViewChild('img2') img2: ElementRef;
   @ViewChild('img3') img3: ElementRef;
+  loadI = 0;
   imgWidth = 948;
   imgWidth2 = 1500;
   imgWidth3 = 873;
@@ -39,9 +40,17 @@ export class MainComponent implements OnInit, AfterContentChecked {
     // this.onResize();
   }
 
+  loadImage() {
+    this.loadI++;
+    if (this.loadI === 3) {
+      setTimeout(() => {
+        this.tabChang(this.tabIndex);
+      }, 1000);
+    }
+  }
+
   ngOnInit() {
     this.tabIndex = Number(this.route.snapshot.queryParams.tabIndex) || 0;
-    console.log('tabIndex', this.tabIndex);
     this.cleanService.CleanMapGet();
     this.cleanService.routerName = '樹人環境評分系統';
     this.cleanService.CleanDataGetDB().subscribe(
@@ -60,12 +69,14 @@ export class MainComponent implements OnInit, AfterContentChecked {
   }
 
   tabChang(index) {
+    console.log('tabChang', index);
     this.tabIndex = index;
     for (let i = 0; i < 5; i++) {
       setTimeout(() => {
         this.onResize();
-      }, i * 200);
+      }, i * 300);
     }
+
   }
 
   onResize() {
@@ -75,22 +86,30 @@ export class MainComponent implements OnInit, AfterContentChecked {
     const scale = Math.round(innerWidth / this.imgWidth * 100) / 100;
     const scale2 = Math.round(innerWidth2 / this.imgWidth2 * 100) / 100;
     const scale3 = Math.round(innerWidth3 / this.imgWidth3 * 100) / 100;
-    const newArea = [];
-    console.log(this.cleanService.mapArea);
-    this.cleanService.mapArea.forEach(area => {
-      newArea.push({ coords: [area.coords[0] * scale, area.coords[1] * scale, 20 * scale] });
-    });
-    this.cleanService.mapAreaUse = newArea;
-    const newArea2 = [];
-    this.cleanService.mapArea2.forEach(area => {
-      newArea2.push({ coords: [area.coords[0] * scale2, area.coords[1] * scale2, 30 * scale2] });
-    });
-    this.cleanService.mapAreaUse2 = newArea2;
-    const newArea3 = [];
-    this.cleanService.mapArea3.forEach(area => {
-      newArea3.push({ coords: [area.coords[0] * scale3, area.coords[1] * scale3, 15 * scale3] });
-    });
-    this.cleanService.mapAreaUse3 = newArea3;
+    if (this.tabIndex === 0) {
+      const newArea = [];
+      this.cleanService.mapArea.forEach(area => {
+        newArea.push({ coords: [area.coords[0] * scale, area.coords[1] * scale, 20 * scale] });
+      });
+      this.cleanService.mapAreaUse = newArea;
+      this.canvasPrint(this.img, 'mapArea');
+    }
+    if (this.tabIndex === 1) {
+      const newArea2 = [];
+      this.cleanService.mapArea2.forEach(area => {
+        newArea2.push({ coords: [area.coords[0] * scale2, area.coords[1] * scale2, 30 * scale2] });
+      });
+      this.cleanService.mapAreaUse2 = newArea2;
+      this.canvasPrint(this.img2, 'mapArea2');
+    }
+    if (this.tabIndex === 2) {
+      const newArea3 = [];
+      this.cleanService.mapArea3.forEach(area => {
+        newArea3.push({ coords: [area.coords[0] * scale3, area.coords[1] * scale3, 15 * scale3] });
+      });
+      this.cleanService.mapAreaUse3 = newArea3;
+      this.canvasPrint(this.img3, 'mapArea3');
+    }
   }
 
   CleanDataDelete(i: number) {
@@ -193,7 +212,45 @@ export class MainComponent implements OnInit, AfterContentChecked {
     console.log('modeChange', event);
   }
 
-  mktt() {
-    console.log('mktt');
+  mktt(img) {
+    console.log('mktt img', this.img);
+  }
+
+  canvasPrint(img: ElementRef, mapAreaI: string) {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.nativeElement.naturalWidth;
+    canvas.height = img.nativeElement.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    const originalImg = new Image();
+    originalImg.onload = () => {
+      ctx.drawImage(originalImg, 0, 0);
+      ctx.strokeStyle = 'red';
+      ctx.fillStyle = '#000';
+      ctx.lineWidth = 50;
+      ctx.lineCap = 'round';
+      ctx.font = '40px Arial';
+      ctx.beginPath();
+      this.cleanService[mapAreaI].map((mapArea, i) => {
+        const x = mapArea.coords[0];
+        const y = mapArea.coords[1];
+        ctx.moveTo(x, y);
+        ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      this.cleanService[mapAreaI].map((mapArea, i) => {
+        if (this.cleanService.mapAreaName[i + this.range[this.tabIndex]] !== undefined) {
+          const x = mapArea.coords[0];
+          const y = mapArea.coords[1];
+          ctx.fillText(this.cleanService.mapAreaName[i + this.range[this.tabIndex]], x, y);
+        }
+      });
+      ctx.stroke();
+      const dataURL = canvas.toDataURL('image/jpeg');
+      img.nativeElement.src = dataURL;
+    };
+    originalImg.src = this.cleanService.imgSrc[mapAreaI];
   }
 }

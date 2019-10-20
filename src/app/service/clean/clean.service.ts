@@ -8,6 +8,11 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class CleanService {
+  imgSrc = {
+    mapArea: 'assets/szmcmap.jpg',
+    mapArea2: 'assets/szmcmap2.jpg',
+    mapArea3: 'assets/szmcmap3.jpg',
+  };
   routerName = '';
   mapAreaName = {};
   mapAreaUse = [];
