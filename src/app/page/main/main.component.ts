@@ -5,7 +5,7 @@ import { Clean, DBClean } from 'src/app/interface/clean';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import * as moment from 'moment';
 import { AreaSetDialogComponent } from '../area-set/area-set.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -34,6 +34,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngAfterContentChecked() {
@@ -70,6 +71,13 @@ export class MainComponent implements OnInit, AfterContentChecked {
 
   tabChang(index) {
     console.log('tabChang', index);
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: { tabIndex: index },
+        queryParamsHandling: 'merge', // remove to replace all query params by provided
+      });
     this.tabIndex = index;
     for (let i = 0; i < 5; i++) {
       setTimeout(() => {
@@ -199,12 +207,14 @@ export class MainComponent implements OnInit, AfterContentChecked {
   }
 
   openDialog(i: number): void {
+    console.log(this.cleanService.mapArea3[i - this.range[this.tabIndex]]);
     this.dialog.open(AreaSetDialogComponent, {
       width: '300px',
       data: i,
     }).afterClosed().subscribe(result => {
       console.log(result);
       this.cleanService.CleanMapSet();
+      this.onResize();
     });
   }
 
@@ -229,6 +239,10 @@ export class MainComponent implements OnInit, AfterContentChecked {
       ctx.lineWidth = 50;
       ctx.lineCap = 'round';
       ctx.font = '40px Arial';
+      if (mapAreaI === 'mapArea3') {
+        ctx.lineWidth = 30;
+        ctx.font = '20px Arial';
+      }
       ctx.beginPath();
       this.cleanService[mapAreaI].map((mapArea, i) => {
         const x = mapArea.coords[0];
