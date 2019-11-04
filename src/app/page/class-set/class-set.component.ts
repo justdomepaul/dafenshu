@@ -25,7 +25,7 @@ export class ClassSetComponent implements OnInit {
   };
 
   ngOnInit() {
-
+    this.cleanService.routerName = '班級管理';
   }
 
   ReflashArea() {

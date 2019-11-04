@@ -19,6 +19,7 @@ import { AreaSetComponent, AreaSetDialogComponent } from './page/area-set/area-s
 import { environment } from '../environments/environment';
 import { LoginPageComponent } from './page/login-page/login-page.component';
 import { FirebaseUIModule, firebase, firebaseui } from 'firebaseui-angular';
+import { HistoryDetailsComponent } from './page/history-details/history-details.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -49,6 +50,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AreaSetComponent,
     AreaSetDialogComponent,
     LoginPageComponent,
+    HistoryDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,8 @@
           {{history.id}}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <button mat-raised-button color="primary" (click)="test(i)">結算本週</button>
+      <button mat-raised-button color="primary" class="mright" (click)="test(i)">結算本週</button>
+      <button mat-raised-button color="primary" [routerLink]="['./',history.id]">詳細評分</button>
       <p>目前數據</p>
       <ng-container *ngFor="let clean of history.clean;let j = index">
         <p *ngIf="clean !== undefined">{{weekZh[j]}}</p>
