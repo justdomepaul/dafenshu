@@ -269,7 +269,7 @@ export class CleanService {
   }
 
   CleanDataUploadDB() {
-    this.cleanDatas = JSON.parse(localStorage.getItem('mkdata'));
+    // this.cleanDatas = JSON.parse(localStorage.getItem('mkdata'));
     const index = moment().isoWeekday();
     if (this.cleanDatasDB.data[index] === undefined) {
       this.cleanDatasDB.data[index] = this.cleanDatas;
@@ -340,9 +340,11 @@ export class CleanService {
         }
         promiseArr.push(
           new Promise((resolve, reject) => {
+            console.log('this.cleanDatas[i]1', this.cleanDatas[i]);
             this.toolService.imgurImageUpload(this.cleanDatas[i].image[j]).subscribe(
               (v) => {
                 console.log('v', v);
+                console.log('this.cleanDatas[i]', this.cleanDatas[i]);
                 this.cleanDatas[i].image[j] = v.data.link;
                 resolve(true);
               },
@@ -391,6 +393,7 @@ export class CleanService {
     this.db.collection('clean').get().subscribe(
       (v) => {
         this.historyWeek = v.docs;
+        this.historyWeek.reverse();
       },
     );
   }
