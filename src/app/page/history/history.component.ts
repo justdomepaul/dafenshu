@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CleanService } from 'src/app/service/clean/clean.service';
 import { AngularFirestore, QueryDocumentSnapshot } from '@angular/fire/firestore';
 import { HistoryData } from 'src/app/interface/clean';
+import { ToolService } from 'src/app/service/tool/tool.service';
 
 @Component({
   selector: 'app-history',
@@ -22,6 +23,7 @@ export class HistoryComponent implements OnInit {
 
   constructor(
     public cleanService: CleanService,
+    private toolService: ToolService,
     private db: AngularFirestore,
   ) { }
 
@@ -47,21 +49,49 @@ export class HistoryComponent implements OnInit {
     console.log(this.cleanService.historyWeek[i].clean);
     console.log(this.cleanService.classArr);
     this.cleanService.classArr.forEach(classArr => {
-      let scores = 0;
+      let scoresA = 0;
+      let scoresB = 0;
+      let scoresC = 0;
       classArr.ownArea.forEach(ownArea => {
         this.cleanService.historyWeek[i].clean.forEach(day => {
-          if (day[ownArea] === null) { return; }
-          scores += Number(day[ownArea].rate);
+          if (day[ownArea] === null || day[ownArea].rate === undefined) { return; }
+          if (ownArea < this.cleanService.range[1]) {
+            scoresA += Number(day[ownArea].rate);
+          }
+          if (ownArea > this.cleanService.range[1] && ownArea < this.cleanService.range[2]) {
+            scoresB += Number(day[ownArea].rate);
+          }
+          if (ownArea > this.cleanService.range[2]) {
+            scoresC += Number(day[ownArea].rate);
+          }
         });
       });
-      console.log(classArr.name, scores);
+      console.log(classArr.name, scoresA, scoresB, scoresC);
       const historyData: HistoryData = {
         name: classArr.name,
-        // tslint:disable-next-line: object-literal-shorthand
-        scores: scores,
+        scores: {
+          scoresA,
+          scoresB,
+          scoresC,
+        },
       };
       history.data.push(historyData);
     });
     this.db.collection('history').doc(week).set(history);
+  }
+
+  exportToCSV(i) {
+    const fireName = this.cleanService.historyWeek[i].id;
+    console.log(this.cleanService.historyWeek[i]);
+    let csv = '班級,外掃區,廁所,內掃區\n';
+    this.cleanService.historyWeek[i].historyDatas.forEach(
+      (historyData) => {
+        csv += historyData.name + ',';
+        csv += historyData.scores.scoresA + ',';
+        csv += historyData.scores.scoresB + ',';
+        csv += historyData.scores.scoresC + '\n';
+      },
+    );
+    this.toolService.exportToCSV(csv, fireName);
   }
 }

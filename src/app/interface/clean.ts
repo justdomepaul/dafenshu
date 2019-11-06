@@ -27,7 +27,11 @@ export interface ClassArea {
 
 export interface HistoryData {
   name: string;
-  scores: number;
+  scores: {
+    scoresA: number,
+    scoresB: number,
+    scoresC: number,
+  };
 }
 
 export interface MkQueryDocumentSnapshot extends QueryDocumentSnapshot<any> {

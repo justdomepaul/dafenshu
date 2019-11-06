@@ -247,6 +247,13 @@ export class CleanService {
     { coords: [724, 633, 20] },
   ];
 
+  range = [
+    0,
+    this.mapArea.length,
+    this.mapArea.length + this.mapArea2.length,
+    this.mapArea.length + this.mapArea2.length + this.mapArea3.length,
+  ];
+
   mapAreaAll: MapArea[];
   constructor(
     private db: AngularFirestore,

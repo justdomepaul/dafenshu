@@ -108,4 +108,13 @@ export class ToolService {
       reader.readAsDataURL(file);
     });
   }
+
+  exportToCSV(csvString: string, filename: string) {
+    const downloadLink = document.createElement('a');
+    downloadLink.download = filename + '.csv';
+    downloadLink.innerHTML = 'Download File';
+    const code = encodeURIComponent(csvString);
+    downloadLink.href = 'data:application/csv;charset=utf-8,\uFEFF' + code;
+    downloadLink.click();
+  }
 }

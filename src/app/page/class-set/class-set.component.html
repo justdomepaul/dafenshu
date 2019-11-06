@@ -30,21 +30,58 @@
       </mat-form-field>
       <mat-form-field class="example-chip-list">
         <mat-chip-list #chipList aria-label="Fruit selection">
-          <mat-chip *ngFor="let area of class.ownArea;let j = index;"
-            (removed)="class.ownArea.splice(j,1);ReflashArea();">
-            {{area+1}} {{cleanService.mapAreaName[area]}}
+          <mat-chip *ngFor="let area of class.ownArea;let j = index;" (removed)="class.ownArea.splice(j,1)">
+            {{cleanService.mapAreaName[area]}}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
         </mat-chip-list>
       </mat-form-field>
       <mat-form-field>
-        <mat-label>新增區域</mat-label>
-        <mat-select (selectionChange)="class.ownArea.push($event.value);ReflashArea();">
-          <mat-option *ngFor="let mapArea of cleanService.mapAreaAll;let j = index;" [disabled]="mapArea.disabled"
-            [value]="j">{{j+1}} {{cleanService.mapAreaName[j]}}
+        <mat-label>新增外掃區</mat-label>
+        <mat-select (opened)="ReflashArea();" (selectionChange)="class.ownArea.push($event.value)">
+          <mat-option *ngFor="let mapArea of cleanService.mapArea;let j = index;" [disabled]="mapArea.disabled"
+            [value]="j">{{cleanService.mapAreaName[j + cleanService.range[0]]}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>新增廁所區</mat-label>
+        <mat-select (opened)="ReflashArea();"
+          (selectionChange)="class.ownArea.push($event.value + cleanService.range[1])">
+          <mat-option *ngFor="let mapArea of cleanService.mapArea2;let j = index;" [disabled]="mapArea.disabled"
+            [value]="j">{{cleanService.mapAreaName[j + cleanService.range[1]]}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>新增內掃區</mat-label>
+        <mat-select (opened)="ReflashArea();"
+          (selectionChange)="class.ownArea.push($event.value + cleanService.range[2])">
+          <mat-option *ngFor="let mapArea of cleanService.mapArea3;let j = index;" [disabled]="mapArea.disabled"
+            [value]="j">{{cleanService.mapAreaName[j + cleanService.range[2]]}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="flex-div">
+        <div class="flex-item">
+          <mat-form-field>
+            <input matInput placeholder="搜尋關鍵字" ngModel name="key" value="Sushi" #keywrod>
+          </mat-form-field>
+        </div>
+        <div class="flex-item">
+          <mat-form-field>
+            <mat-label>搜尋區域</mat-label>
+            <mat-select (opened)="ReflashArea();" (selectionChange)="class.ownArea.push($event.value)">
+              <ng-container *ngFor="let mapArea of cleanService.mapAreaAll;let j = index;">
+                <mat-option [ngClass]="{'hide': true}"
+                  *ngIf="cleanService.mapAreaName[j].toUpperCase().indexOf(keywrod.value.toUpperCase()) != -1"
+                  [disabled]="mapArea.disabled" [value]="j">{{cleanService.mapAreaName[j]}}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

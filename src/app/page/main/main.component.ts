@@ -22,12 +22,6 @@ export class MainComponent implements OnInit, AfterContentChecked {
   imgWidth2 = 1500;
   imgWidth3 = 873;
 
-  range = [
-    0,
-    this.cleanService.mapArea.length,
-    this.cleanService.mapArea.length + this.cleanService.mapArea2.length,
-    this.cleanService.mapArea.length + this.cleanService.mapArea2.length + this.cleanService.mapArea3.length,
-  ];
   constructor(
     public cleanService: CleanService,
     private toolService: ToolService,
@@ -207,7 +201,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
   }
 
   openDialog(i: number): void {
-    console.log(this.cleanService.mapArea3[i - this.range[this.tabIndex]]);
+    console.log(this.cleanService.mapArea3[i - this.cleanService.range[this.tabIndex]]);
     this.dialog.open(AreaSetDialogComponent, {
       width: '300px',
       data: i,
@@ -255,10 +249,10 @@ export class MainComponent implements OnInit, AfterContentChecked {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       this.cleanService[mapAreaI].map((mapArea, i) => {
-        if (this.cleanService.mapAreaName[i + this.range[this.tabIndex]] !== undefined) {
+        if (this.cleanService.mapAreaName[i + this.cleanService.range[this.tabIndex]] !== undefined) {
           const x = mapArea.coords[0];
           const y = mapArea.coords[1];
-          ctx.fillText(this.cleanService.mapAreaName[i + this.range[this.tabIndex]], x, y);
+          ctx.fillText(this.cleanService.mapAreaName[i + this.cleanService.range[this.tabIndex]], x, y);
         }
       });
       ctx.stroke();

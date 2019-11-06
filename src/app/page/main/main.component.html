@@ -26,22 +26,22 @@
   <mat-tab label="廁所責任區">
     <img src="assets/szmcmap2.jpg" (load)="loadImage()" class="map-img" usemap="#planetmap2" #img2>
     <map name="planetmap2" *ngIf="modeName.checked === false">
-      <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i + range[tabIndex]]"
+      <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i + cleanService.range[tabIndex]]"
         [queryParams]="{tabIndex : 1}" *ngFor="let Area of cleanService.mapAreaUse2;let i = index;">
     </map>
     <map name="planetmap2" *ngIf="modeName.checked === true">
-      <area shape="circle" [coords]="Area.coords" (click)="openDialog(i + range[tabIndex])"
+      <area shape="circle" [coords]="Area.coords" (click)="openDialog(i + cleanService.range[tabIndex])"
         *ngFor="let Area of cleanService.mapAreaUse2;let i = index;">
     </map>
   </mat-tab>
   <mat-tab label="內掃區">
     <img src="assets/szmcmap3.jpg" (load)="loadImage()" class="map-img" usemap="#planetmap3" #img3>
     <map name="planetmap3" *ngIf="modeName.checked === false">
-      <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i +range[tabIndex]]"
+      <area shape="circle" [coords]="Area.coords" [routerLink]="['area', i +cleanService.range[tabIndex]]"
         [queryParams]="{tabIndex : 2}" *ngFor="let Area of cleanService.mapAreaUse3;let i = index;">
     </map>
     <map name="planetmap3" *ngIf="modeName.checked === true">
-      <area shape="circle" [coords]="Area.coords" (click)="openDialog(i +range[tabIndex])"
+      <area shape="circle" [coords]="Area.coords" (click)="openDialog(i +cleanService.range[tabIndex])"
         *ngFor="let Area of cleanService.mapAreaUse3;let i = index;">
     </map>
   </mat-tab>
@@ -51,7 +51,7 @@
   <mat-accordion style="margin-top: 15px;display: block;">
     <ng-container *ngFor="let cleanData of cleanService.cleanDatas;let i = index;">
       <mat-expansion-panel
-        *ngIf="i >= range[tabIndex] && i < range[tabIndex+1] && cleanData !== null && cleanData !== undefined">
+        *ngIf="i >= cleanService.range[tabIndex] && i < cleanService.range[tabIndex+1] && cleanData !== null && cleanData !== undefined">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ cleanService.mapAreaName[cleanData.area] }}
