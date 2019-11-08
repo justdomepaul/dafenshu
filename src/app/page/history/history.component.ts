@@ -80,7 +80,7 @@ export class HistoryComponent implements OnInit {
     this.db.collection('history').doc(week).set(history);
   }
 
-  exportToCSV(i) {
+  exportToCSV(i: number, level: string) {
     const fireName = this.cleanService.historyWeek[i].id;
     console.log(this.cleanService.historyWeek[i]);
     let csv = '班級,外掃區,廁所,內掃區\n';

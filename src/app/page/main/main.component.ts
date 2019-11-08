@@ -184,6 +184,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
   }
 
   CleanDataUploadDB() {
+    console.log('mainCleanDataUploadDB');
     this.cleanService.CleanDataUploadDB().then((res) => {
       console.log('CleanDataUploadDB then', res);
       this.snackBar.open('上傳成功', '', { duration: 2000 });
