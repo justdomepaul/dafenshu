@@ -7,8 +7,9 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <button mat-raised-button color="primary" class="mright" (click)="test(i)">結算本週</button>
-      <button mat-raised-button color="primary" class="mright" (click)="exportToCSV(i,'low')">匯出報表(低)</button>
-      <button mat-raised-button color="primary" class="mright" (click)="exportToCSV(i,'high')">匯出報表(高)</button>
+      <button mat-raised-button color="primary" class="mright" (click)="exportToCSV(i,'outer')">外掃區</button>
+      <button mat-raised-button color="primary" class="mright" (click)="exportToCSV(i,'low')">教室(低)</button>
+      <button mat-raised-button color="primary" class="mright" (click)="exportToCSV(i,'high')">教室(高)</button>
       <button mat-raised-button color="primary" [routerLink]="['./',history.id]">詳細評分</button>
       <p>目前數據</p>
       <ng-container *ngFor="let clean of history.clean;let j = index">

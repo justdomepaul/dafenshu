@@ -278,9 +278,11 @@ export class CleanService {
   CleanDataUploadDB() {
     // this.cleanDatas = JSON.parse(localStorage.getItem('mkdata'));
     const index = moment().isoWeekday();
+    // 該周空 直接上傳
     if (this.cleanDatasDB.data[index] === undefined) {
       this.cleanDatasDB.data[index] = this.cleanDatas;
     } else {
+      // 該周有資料 要對比一下
       this.cleanDatas.map(
         (cleanData, i) => {
           if (this.cleanDatasDB.data[index][i] === undefined) {
