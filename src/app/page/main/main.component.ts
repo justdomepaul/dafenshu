@@ -50,7 +50,7 @@ export class MainComponent implements OnInit, AfterContentChecked {
     this.cleanService.routerName = '樹人環境評分系統';
     this.cleanService.CleanDataGetDB().subscribe(
       (v) => {
-        console.log('CleanDataGetDB', v.data());
+        console.log('ngOnInit CleanDataGetDB', v.data());
         this.cleanService.cleanDatasDB = v.data() as DBClean;
         if (v.data() === undefined) {
           this.cleanService.CleanDataAddWeek().then((result) => {

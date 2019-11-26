@@ -28,11 +28,12 @@
       <ng-container *ngFor="let image of cleanData.image;let i = index">
         <div class="flex-item">
           <img [src]="image" class="img-rwd" (click)="imgFileInput.click()">
-          <input hidden accept="image/*" capture #imgFileInput (change)="previewImage($event, i)" />
+          <input hidden type="file" accept="image/*" capture #imgFileInput (change)="previewImage($event, i)" />
         </div>
       </ng-container>
       <div class="flex-item">
-        <input hidden accept="image/*" capture #imgFileInput (change)="previewImage($event, cleanData.image.length)" />
+        <input hidden type="file" accept="image/*" capture #imgFileInput
+          (change)="previewImage($event, cleanData.image.length)" />
         <img src="https://image.flaticon.com/icons/svg/138/138570.svg" class="img-rwd" (click)="imgFileInput.click()">
       </div>
     </div>

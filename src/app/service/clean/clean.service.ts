@@ -283,19 +283,21 @@ export class CleanService {
       this.cleanDatasDB.data[index] = this.cleanDatas;
     } else {
       // 該周有資料 要對比一下
-      this.cleanDatas.map(
-        (cleanData, i) => {
-          if (this.cleanDatasDB.data[index][i] === undefined) {
-            this.cleanDatasDB.data[index][i] = null;
-          }
-          if (cleanData !== null) {
-            this.cleanDatasDB.data[index][i] = cleanData;
-          }
+      for (let i = 0; i < this.cleanDatas.length; i++) {
+        const cleanData = this.cleanDatas[i];
+        if (this.cleanDatasDB.data[index][i] === undefined) {
+          this.cleanDatasDB.data[index][i] = null;
         }
-      );
+        if (cleanData !== null) {
+          this.cleanDatasDB.data[index][i] = cleanData;
+        }
+      }
     }
-    console.log('CleanDataUploadDB2', this.cleanDatasDB);
-    return this.db.collection('clean').doc(this.monday).set(this.cleanDatasDB);
+    const batch = this.db.firestore.batch();
+    const ref = this.db.collection('clean').doc(this.monday).ref;
+    const cleanDatasDB = JSON.parse(JSON.stringify(this.cleanDatasDB));
+    batch.set(ref, cleanDatasDB);
+    return batch.commit();
   }
 
   CleanDataSave(data: Clean) {
