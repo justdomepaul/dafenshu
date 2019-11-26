@@ -1,6 +1,6 @@
 <div class="container">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let history of cleanService.historyWeek;let i = index;" (afterExpand)="showData(i)">
+    <mat-expansion-panel *ngFor="let history of cleanService.historyWeek;let i = index;" (afterExpand)="cleanService.showData(i)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{history.id}}

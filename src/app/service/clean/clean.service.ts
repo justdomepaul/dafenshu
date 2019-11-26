@@ -400,13 +400,16 @@ export class CleanService {
     );
   }
 
-  CleanHistoryWeekGet() {
-    this.db.collection('clean').get().subscribe(
-      (v) => {
-        this.historyWeek = v.docs;
-        this.historyWeek.reverse();
-      },
-    );
+  CleanHistoryWeekGet(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.db.collection('clean').get().subscribe(
+        (v) => {
+          this.historyWeek = v.docs;
+          this.historyWeek.reverse();
+          resolve(true);
+        },
+      );
+    });
   }
 
   CleanHistoryGet(i: number) {
@@ -430,5 +433,16 @@ export class CleanService {
       }
     });
     return className;
+  }
+
+  showData(i: number) {
+    const data = this.historyWeek[i].data();
+    this.historyWeek[i].fireData = data.data;
+    this.historyWeek[i].clean = [];
+    this.CleanHistoryGet(i);
+    Object.keys(this.historyWeek[i].fireData).map((objectKey) => {
+      const value = this.historyWeek[i].fireData[objectKey];
+      this.historyWeek[i].clean[objectKey] = value;
+    });
   }
 }

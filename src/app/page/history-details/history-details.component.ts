@@ -8,7 +8,17 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./history-details.component.scss']
 })
 export class HistoryDetailsComponent implements OnInit {
-  historyWeek;
+  weeki: number;
+  weekZh = [
+    '',
+    '星期一',
+    '星期二',
+    '星期三',
+    '星期四',
+    '星期五',
+    '星期六',
+    '星期日',
+  ];
   constructor(
     private route: ActivatedRoute,
     public cleanService: CleanService,
@@ -16,15 +26,21 @@ export class HistoryDetailsComponent implements OnInit {
 
   ngOnInit() {
     const week = this.route.snapshot.params.week;
-    this.cleanService.historyWeek.forEach(
-      (historyWeek) => {
-        console.log('historyWeek.id ', historyWeek.id);
-        if (historyWeek.id === week) {
-          this.historyWeek = historyWeek.data();
-          return;
-        }
-      },
-    );
+    this.cleanService.routerName = week + '扣分狀況';
+    this.cleanService.CleanHistoryWeekGet().then((result) => {
+      this.cleanService.historyWeek.forEach(
+        (historyWeek, i) => {
+          if (historyWeek.id === week) {
+            this.weeki = i;
+            this.cleanService.showData(i);
+            return;
+          }
+        },
+      );
+    }).catch((err) => {
+
+    });
+
   }
 
 }

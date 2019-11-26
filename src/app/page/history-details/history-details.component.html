@@ -1,4 +1,59 @@
-<p>
-  history-details works!
-</p>
-{{historyWeek|json}}
+<br>
+<div class="container">
+  <div class="flex-div">
+    <div class="flex-item">
+      <mat-form-field>
+        <mat-label>年級</mat-label>
+        <mat-select #level value=3>
+          <mat-option value="0">不限</mat-option>
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+          <mat-option value="4">4</mat-option>
+          <mat-option value="5">5</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="flex-item">
+      <mat-form-field>
+        <mat-label>科系代號</mat-label>
+        <mat-select #department value="N">
+          <mat-option value="">不限</mat-option>
+          <mat-option value="N">N</mat-option>
+          <mat-option value="M">M</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-accordion *ngIf="weeki >= 0">
+    <ng-container *ngFor="let classArr of cleanService.classArr">
+      <mat-expansion-panel
+        *ngIf="(level.value ==0 || classArr.name.substr(0,1) == level.value) &&(department.value =='' ||  (classArr.name.substr(1,1) == department.value))">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{classArr.name}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container *ngFor="let clean of cleanService.historyWeek[weeki].clean;let i = index">
+          <ng-container *ngIf="clean !== undefined">
+            <p>{{ weekZh[i] }}</p>
+            <ng-container *ngFor="let ownArea of classArr.ownArea">
+              <ng-container *ngIf="clean[ownArea] !== undefined && clean[ownArea] !== null">
+                <p>區域:{{ clean[ownArea].area }}</p>
+                <p>扣分:{{ clean[ownArea].rate }}</p>
+                <p>備註:{{ clean[ownArea].note }}</p>
+                <div class="flex-div">
+                  <div class="flex-item" *ngFor="let image of clean[ownArea].image">
+                    <img [src]="image" class="img-rwd">
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+</div>

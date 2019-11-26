@@ -32,17 +32,6 @@ export class HistoryComponent implements OnInit {
     this.cleanService.CleanHistoryWeekGet();
   }
 
-  showData(i: number) {
-    const data = this.cleanService.historyWeek[i].data();
-    this.cleanService.historyWeek[i].fireData = data.data;
-    this.cleanService.historyWeek[i].clean = [];
-    this.cleanService.CleanHistoryGet(i);
-    Object.keys(this.cleanService.historyWeek[i].fireData).map((objectKey) => {
-      const value = this.cleanService.historyWeek[i].fireData[objectKey];
-      this.cleanService.historyWeek[i].clean[objectKey] = value;
-    });
-  }
-
   test(i: number) {
     const week = this.cleanService.historyWeek[i].id;
     const history = { data: [] };
